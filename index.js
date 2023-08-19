@@ -2,9 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const walletRoutes = require("./routes/walletRoutes");
 const cors = require("cors");
+import 'dotenv/config'
+require('dotenv').config()
 
 const app = express();
-const port = 5000; // Change this to the desired port number
+const port = 80; // Change this to the desired port number
 
 // Middleware for parsing JSON request bodies
 app.use(bodyParser.json());
