@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const walletRoutes = require("./routes/walletRoutes");
 const cors = require("cors");
-import 'dotenv/config'
 require('dotenv').config()
 
 const app = express();
