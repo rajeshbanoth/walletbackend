@@ -13,6 +13,9 @@ app.use(cors());
 
 // Middleware for parsing JSON request bodies
 app.use(express.json());
+app.get("/",(req,res)=>{
+  res.send("server started")
+})
 
 // Use the walletRoutes for handling wallet-related APIs
 app.use("/api", walletRoutes);
