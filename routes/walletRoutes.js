@@ -15,7 +15,7 @@ const {
   getBalance,
 } = require("../controller/wallet/MoralisController");
 const { getNFTTokens } = require("../controller/wallet/MoralisNftController");
-const { CreateAddress } = require("../controller/wallet/Coin");
+const { CreateAddress, getMarketData } = require("../controller/wallet/Coin");
 const router = express.Router();
 
 // Route to generate a new mnemonic
@@ -37,6 +37,7 @@ router.post(
 );
 
 router.post("/wallet/coin/getimage", getImage);
+router.post("/wallet/token/marketdata",getMarketData)
 
 router.post("/wallet/create/address", CreateAddress);
 

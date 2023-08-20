@@ -1,9 +1,7 @@
-
 const axios = require("axios");
 const sharp = require("sharp");
 const { getCoinList } = require("../../utils/functions");
 const Moralis = require("../../config/moralisConfig");
-
 
 exports.getAllTokens = async (req, res) => {
   try {
@@ -83,44 +81,38 @@ exports.getAllTokens = async (req, res) => {
   }
 };
 
-
-
-
 exports.getBalance = async (req, res) => {
   try {
     const { chain, address } = req.body;
-    console.log(req.body)
-    const data = await Moralis.EvmApi.balance.getNativeBalance({
-      chain: chain,
-      address: address,
-    });
 
+    if (chain !== "btc") {
+      const data = await Moralis.EvmApi.balance.getNativeBalance({
+        chain: chain,
+        address: address,
+      });
 
-
-  
-    res.status(201).json(data.toJSON().balance/ 1e18);
+      res.status(201).json(data.toJSON().balance / 1e18);
+    } else {
+      res.status(201).json(0);
+    }
   } catch (error) {
-    console.log(error)
+    // console.log(error);
     res.status(500).json({ message: error });
   }
 };
 
-
 exports.TransferToken = async (req, res) => {
   try {
     const { chain, address } = req.body;
-    console.log(req.body)
+    console.log(req.body);
     // const data = await Moralis.EvmApi.({
     //   chain: chain,
     //   address: address,
     // });
 
-
-
-  
-    res.status(201).json(data.toJSON().balance/ 1e18);
+    res.status(201).json(data.toJSON().balance / 1e18);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: error });
   }
 };
@@ -128,12 +120,12 @@ exports.TransferToken = async (req, res) => {
 exports.getTransactionHistoryOfToken = async (req, res) => {
   try {
     const { chain, address } = req.body;
-    const transationData = await Moralis.EvmApi.transaction.getWalletTransactions({
-      chain: chain,
-      address: address,
-    });
+    const transationData =
+      await Moralis.EvmApi.transaction.getWalletTransactions({
+        chain: chain,
+        address: address,
+      });
 
-     
     res.status(201).json(transationData.toJSON().result);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -141,98 +133,8 @@ exports.getTransactionHistoryOfToken = async (req, res) => {
 };
 
 exports.ChainList = async (req, res) => {
-  const supportedChains = [
-    {
-      name: "Ethereum",
-      chainIdHex: "0x1",
-      chainIdInt: 1,
-      symbol: "ETH",
-    },
-    {
-      name: "Goerli",
-      chainIdHex: "0x5",
-      chainIdInt: 5,
-      symbol: "GTH",
-    },
-    {
-      name: "Sepolia",
-      chainIdHex: "0xaa36a7",
-      chainIdInt: 11155111,
-      symbol: "SPL",
-    },
-    {
-      name: "Polygon",
-      chainIdHex: "0x89",
-      chainIdInt: 137,
-      symbol: "MATIC",
-    },
-    {
-      name: "Mumbai",
-      chainIdHex: "0x13881",
-      chainIdInt: 80001,
-      symbol: "MATIC",
-    },
-    {
-      name: "Binance Smart Chain",
-      chainIdHex: "0x38",
-      chainIdInt: 56,
-      symbol: "BNB",
-    },
-    {
-      name: "BSC Testnet",
-      chainIdHex: "0x61",
-      chainIdInt: 97,
-      symbol: "BNB",
-    },
-    {
-      name: "Avalanche",
-      chainIdHex: "0xa86a",
-      chainIdInt: 43114,
-      symbol: "AVAX",
-    },
-    {
-      name: "Fantom",
-      chainIdHex: "0xfa",
-      chainIdInt: 250,
-      symbol: "FTM",
-    },
-    {
-      name: "Cronos",
-      chainIdHex: "0x19",
-      chainIdInt: 25,
-      symbol: "CRO",
-    },
-    {
-      name: "Palm",
-      chainIdHex: "0x2a15c308d",
-      chainIdInt: 11297108109,
-      symbol: "PLM",
-    },
-    {
-      name: "Arbitrum",
-      chainIdHex: "0xa4b1",
-      chainIdInt: 42161,
-      symbol: "ARB",
-    },
-  ];
-
   try {
-    for (const chain of supportedChains) {
-      const tokenMetadata = await Moralis.EvmApi.token.getTokenMetadataBySymbol(
-        {
-          symbols: chain.symbol,
-        }
-      );
-
-      if (tokenMetadata.length > 0) {
-        const logoUrl = tokenMetadata[0].logo;
-        chain.logoUrl = logoUrl;
-      }
-    }
-
-    console.log(supportedChains);
-
-    res.send(supportedChains);
+    res.status(201).json("chain list");
   } catch (error) {
     console.error("Error:", error.message);
     res.status(500).json({ error: "Internal server error" });

@@ -1,4 +1,5 @@
 const Moralis = require("moralis").default;
+require("dotenv").config();
 
 const MORALIS_API_KEY = process.env.MORALIS_KEY
 

@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const walletRoutes = require("./routes/walletRoutes");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 
 const app = express();
 const port = 80; // Change this to the desired port number
@@ -13,9 +13,9 @@ app.use(cors());
 
 // Middleware for parsing JSON request bodies
 app.use(express.json());
-app.get("/",(req,res)=>{
-  res.send("server started")
-})
+app.get("/", (req, res) => {
+  res.send("server started");
+});
 
 // Use the walletRoutes for handling wallet-related APIs
 app.use("/api", walletRoutes);

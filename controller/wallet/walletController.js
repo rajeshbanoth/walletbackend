@@ -1,9 +1,9 @@
 const { Wallet } = require("ethers");
 const bip39 = require("bip39");
-const HDKey = require('hdkey');
+const HDKey = require("hdkey");
 const { ChainsList } = require("../../functions");
 const Moralis = require("moralis").default;
-const ethUtil = require('ethereumjs-util');
+const ethUtil = require("ethereumjs-util");
 
 // Generate a new mnemonic
 exports.generateMnemonic = (req, res) => {
@@ -42,23 +42,24 @@ exports.createWallet = (req, res) => {
       const seed = bip39.mnemonicToSeedSync(mnemonic);
 
       const masterSeed = HDKey.fromMasterSeed(seed);
-    
- 
-      if (masterSeed ) {
+
+      if (masterSeed) {
         const ethRoot = masterSeed.derive("m/44'/60'/0'/0");
-        const ethPrivateKey = ethRoot.privateKey.toString('hex');        
+        const ethPrivateKey = ethRoot.privateKey.toString("hex");
         // Derive Ethereum address from private key
-        const ethAddress = ethUtil.privateToAddress(Buffer.from(ethPrivateKey, 'hex')).toString('hex');
-        
+        const ethAddress = ethUtil
+          .privateToAddress(Buffer.from(ethPrivateKey, "hex"))
+          .toString("hex");
+
         const walletData = {
           walletName: walletName,
           address: ethAddress,
           privateKey: ethPrivateKey,
           mnemonic: mnemonic,
-          root:masterSeed,
-          seed:seed
+          coins: [],
+          tokens: [],
         };
-        console.log(walletData)
+        console.log(walletData);
         res.status(201).json(walletData);
       }
     } else {
@@ -80,23 +81,24 @@ exports.restoreWallet = (req, res) => {
       const seed = bip39.mnemonicToSeedSync(mnemonic);
 
       const masterSeed = HDKey.fromMasterSeed(seed);
-    
- 
-      if (masterSeed ) {
+
+      if (masterSeed) {
         const ethRoot = masterSeed.derive("m/44'/60'/0'/0");
-        const ethPrivateKey = ethRoot.privateKey.toString('hex');        
+        const ethPrivateKey = ethRoot.privateKey.toString("hex");
         // Derive Ethereum address from private key
-        const ethAddress = ethUtil.privateToAddress(Buffer.from(ethPrivateKey, 'hex')).toString('hex');
-        
+        const ethAddress = ethUtil
+          .privateToAddress(Buffer.from(ethPrivateKey, "hex"))
+          .toString("hex");
+
         const walletData = {
           walletName: walletName,
           address: ethAddress,
           privateKey: ethPrivateKey,
           mnemonic: mnemonic,
-          root:masterSeed,
-          seed:seed
+          coins: [],
+          tokens: [],
         };
-        console.log(walletData)
+        console.log(walletData);
         res.status(201).json(walletData);
       }
     } else {
@@ -110,7 +112,8 @@ exports.restoreWallet = (req, res) => {
 
 exports.getChainList = async (req, res) => {
   try {
-    res.status(201).json(ChainsList());
+    const chaindata = await ChainsList();
+    res.status(201).json(chaindata);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

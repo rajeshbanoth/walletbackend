@@ -23,6 +23,7 @@ exports.getCoinList = async () => {
       name: "Bitcoin",
       symbol: "BTC",
       chainName: "Bitcoin",
+      chainHex: "btc",
       chainSymbol: "BTC",
       image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
     },
